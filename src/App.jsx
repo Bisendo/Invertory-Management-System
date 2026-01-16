@@ -1,8 +1,10 @@
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import { TranslationProvider } from './Context/TranslationContext';
-import Navbar from './Components/Navbar';
 import Home from "./pages/LandingPage";
+import RegisterForm from './pages/Register';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
 // Import other pages as you create them
 // import Inventory from "./pages/Inventory";
@@ -19,6 +21,11 @@ const App = () => {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/signUp" element={<RegisterForm />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+
+
             {/* Uncomment and add these routes as you create the pages */}
             {/* 
             <Route path="/inventory" element={<Inventory />} />

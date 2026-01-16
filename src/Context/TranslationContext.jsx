@@ -17,7 +17,7 @@ const translations = {
     language: "Language",
     english: "English",
     swahili: "Kiswahili",
-     // New landing page translations
+    // New landing page translations
     trustedByBusinesses: "Trusted by 2,500+ businesses worldwide",
     heroTitle1: "Master Your",
     heroTitle2: "Inventory Flow",
@@ -25,7 +25,7 @@ const translations = {
     startFreeTrial: "Start Free 14-Day Trial",
     watchProductTour: "Watch Product Tour",
     ratedByBusinesses: "Rated by 1,200+ businesses",
-    
+
     // Dashboard translations
     inventoryDashboard: "Inventory Dashboard",
     realTimeOverview: "Real-time overview",
@@ -46,21 +46,67 @@ const translations = {
     lowStockAlert: "Low Stock Alert",
     itemsNeedReordering: "5 items need reordering",
     liveUpdate: "Live update",
-    aiPrediction: "AI Prediction",
     nextRestock: "Next restock: 3 days",
-    
+
     // Stats
     statUptime: "System Uptime",
     statBusinesses: "Businesses Trust",
     statCostReduction: "Avg Cost Reduction",
     statTimeSaved: "Weekly Time Saved",
-    
+
+
+    welcomeBack: 'Welcome back',
+    loginDescription: 'Please log in to your account to access your inventory management dashboard.',
+    loginToYourAccount: 'Login to your account',
+    enterCredentials: 'Enter your credentials to continue',
+    emailOrPhone: 'Email or Phone number',
+    enterEmailOrPhone: 'Enter your email or phone number',
+    emailOrPhoneRequired: 'Email or phone number is required',
+    invalidEmailOrPhone: 'Please enter a valid email or phone number',
+    password: 'Password',
+    enterPassword: 'Enter your password',
+    passwordRequired: 'Password is required',
+    passwordMinLength: 'Password must be at least 6 characters',
+    rememberMe: 'Remember me',
+    forgotPassword: 'Forgot password',
+    login: 'Login',
+    loggingIn: 'Logging in',
+    loginSuccess: 'Login successful! Redirecting...',
+    loginFailed: 'Login failed. Please check your credentials.',
+    tryDemoAccount: 'Try Demo Account',
+    orContinueWith: 'Or continue with',
+    noAccount: 'Don\'t have an account?',
+    createAccountHere: 'Create account here',
+    securityTips: 'Security Tips',
+    tip1: 'Never share your password with anyone',
+    tip2: 'Use a strong, unique password',
+    tip3: 'Log out from shared devices',
+    whyChooseIMS: 'Why Choose IMS?',
+    imsDescription: 'Manage your inventory efficiently with our powerful management system',
+    feature1Title: 'Real-time Tracking',
+    feature1Desc: 'Monitor stock levels and get instant updates',
+    feature2Title: 'Secure & Reliable',
+    feature2Desc: 'Enterprise-grade security for your data',
+    feature3Title: 'Advanced Analytics',
+    feature3Desc: 'Get insights with detailed reports and analytics',
+    feature4Title: '24/7 Support',
+    feature4Desc: 'Our team is always ready to help you',
+    whatUsersSay: 'What Our Users Say',
+    storeManager: 'Store Manager',
+    businessOwner: 'Business Owner',
+    testimonial1: 'IMS has revolutionized how we manage our inventory!',
+    testimonial2: 'Best inventory system I\'ve used in 10 years of business.',
+    allRightsReserved: 'All rights reserved',
+    privacyPolicy: 'Privacy Policy',
+    termsOfService: 'Terms of Service',
+    helpCenter: 'Help Center',
+
     // Features
     powerfulFeatures: "POWERFUL FEATURES",
     featuresTitle1: "Everything You Need for",
     featuresTitle2: "Modern Inventory Management",
     featuresDescription: "From AI-powered predictions to real-time collaboration, our platform delivers everything you need to optimize your inventory operations.",
-    
+
     // Feature details
     featureRealTimeAnalytics: "Real-Time Analytics",
     featureRealTimeAnalyticsDesc: "Monitor stock levels, sales trends, and inventory turnover with live dashboards.",
@@ -80,7 +126,7 @@ const translations = {
     featureBarcodeSystem: "Barcode System",
     featureBarcodeSystemDesc: "Mobile barcode scanning and RFID integration capabilities.",
     featureBarcodeSystemStat: "5x faster counts",
-    
+
     // Pricing
     simplePricing: "SIMPLE PRICING",
     chooseYourPlan: "Choose Your Perfect Plan",
@@ -95,7 +141,7 @@ const translations = {
     customPrice: "Custom",
     tailored: "/tailored",
     mostPopular: "Most Popular",
-    
+
     // Plan features
     featureUpTo500Products: "Up to 500 products",
     feature2UserAccounts: "2 user accounts",
@@ -116,10 +162,10 @@ const translations = {
     featureCustomIntegrations: "Custom integrations",
     featureDedicatedAccountManager: "Dedicated account manager",
     featureOnPremiseDeployment: "On-premise deployment",
-    
+
     needCustomSolution: "Need a custom solution?",
     contactSalesTeam: "Contact our sales team →",
-    
+
     // Testimonials
     trustedByIndustryLeaders: "TRUSTED BY INDUSTRY LEADERS",
     lovedByBusinesses: "Loved by Thousands of Businesses",
@@ -131,7 +177,11 @@ const translations = {
     testimonialText3: "Intuitive interface with powerful reporting. Our team adopted it in one day and our inventory accuracy is now at 99.9%.",
     verifiedCustomer: "Verified customer",
     monthsUsingStockMaster: "6 months using StockMaster",
-    
+
+    activeUsers: 'Active Users',
+    uptime: 'Uptime',
+    support: 'Support',
+
     // CTA
     freeTrialNoCreditCard: "14-DAY FREE TRIAL • NO CREDIT CARD REQUIRED",
     ctaTitle1: "Ready to Transform Your",
@@ -144,7 +194,7 @@ const translations = {
     freeUpdates: "Free Updates",
     support247: "24/7 Support",
     dataOwnership: "Data Ownership",
-    
+
     // Footer
     powerfulInventoryManagement: "Powerful inventory management",
     footerDescription: "Empowering businesses worldwide with intelligent inventory solutions. Streamline operations, reduce costs, and grow with confidence.",
@@ -174,9 +224,27 @@ const translations = {
     termsOfService: "Terms of Service",
     cookiePolicy: "Cookie Policy",
     gdprCompliance: "GDPR Compliance",
+
+    orders: 'Orders',
+    products: 'Products',
+    users: 'Users',
+    logout: 'Logout',
+    welcome: 'Welcome',
+    dashboardSummary: 'Dashboard Summary',
+    addProductDesc: 'Add new inventory item',
+    createOrderDesc: 'Process new sale',
+    generateReportDesc: 'Export sales data',
+    manageUsersDesc: 'User permissions',
+    item: 'item',
+    items: 'items',
+    sold: 'sold',
+    totalRevenueFromSales: 'Total revenue from sales',
+    recentActivity: 'Recent Activity',
+    version: 'Version',
+    refreshing: 'Refreshing data...',
   },
   sw: {
-   // Navbar translations
+    // Navbar translations
     home: "Dashibodi",
     inventory: "Hisa",
     orders: "Maagizo",
@@ -189,7 +257,7 @@ const translations = {
     language: "Lugha",
     english: "Kiingereza",
     swahili: "Kiswahili",
-    
+
     // Landing page translations
     trustedByBusinesses: "Inaaminika na biashara 2,500+ ulimwenguni",
     heroTitle1: "Dhibiti",
@@ -198,7 +266,53 @@ const translations = {
     startFreeTrial: "Anzisha Jaribio la Bure la Siku 14",
     watchProductTour: "Tazama Ziara ya Bidhaa",
     ratedByBusinesses: "Imepimwa na biashara 1,200+",
-    
+
+    welcomeBack: 'Karibu tena',
+    loginDescription: 'Tafadhali ingia kwenye akaunti yako kupata dashibodi ya usimamizi wa hisa.',
+    loginToYourAccount: 'Ingia kwenye akaunti yako',
+    enterCredentials: 'Weka maelezo yako kuendelea',
+    emailOrPhone: 'Barua pepe au Nambari ya simu',
+    enterEmailOrPhone: 'Weka barua pepe au nambari ya simu',
+    emailOrPhoneRequired: 'Barua pepe au nambari ya simu inahitajika',
+    invalidEmailOrPhone: 'Tafadhali weka barua pepe au nambari ya simu sahihi',
+    password: 'Nenosiri',
+    enterPassword: 'Weka nenosiri lako',
+    passwordRequired: 'Nenosiri linahitajika',
+    passwordMinLength: 'Nenosiri lazima liwe na angalau herufi 6',
+    rememberMe: 'Nikumbuke',
+    forgotPassword: 'Umesahau nenosiri',
+    login: 'Ingia',
+    loggingIn: 'Inakuja ndani',
+    loginSuccess: 'Umefanikiwa kuingia! Unaelekezwa...',
+    loginFailed: 'Kuingia kumeshindikana. Tafadhali angalia maelezo yako.',
+    tryDemoAccount: 'Jaribu Akaunti ya Onyesho',
+    orContinueWith: 'Au endelea na',
+    noAccount: 'Huna akaunti?',
+    createAccountHere: 'Unda akaunti hapa',
+    securityTips: 'Vidokezo vya Usalama',
+    tip1: 'Kamwe usishiriki nenosiri lako na mtu yeyote',
+    tip2: 'Tumia nenosiri thabiti na la kipekee',
+    tip3: 'Toka kwenye vifaa vilivyoshirikiwa',
+    whyChooseIMS: 'Kwa Nini Uchague IMS?',
+    imsDescription: 'Dhibiti hisa zako kwa ufanisi na mfumo wetu wenye nguvu wa usimamizi',
+    feature1Title: 'Ufuatiliaji wa Wakati Halisi',
+    feature1Desc: 'Fuatilia viwango vya hisa na upate visasisho papo hapo',
+    feature2Title: 'Salama na Inategemewa',
+    feature2Desc: 'Usalama wa kiwango cha wigo kwa data yako',
+    feature3Title: 'Uchambuzi wa Hali ya Juu',
+    feature3Desc: 'Pata ufahamu kwa ripoti za kina na uchambuzi',
+    feature4Title: 'Usaidizi 24/7',
+    feature4Desc: 'Timu yetu iko tayari kukusaidia kila wakati',
+    whatUsersSay: 'Watumiaji Wetu Wanasema Nini',
+    storeManager: 'Meneja wa Duka',
+    businessOwner: 'Mmiliki wa Biashara',
+    testimonial1: 'IMS imebadilisha kabisa jinsi tunavyodhibiti hisa zetu!',
+    testimonial2: 'Mfumo bora wa hisa nilioutumia katika miaka 10 ya biashara.',
+    allRightsReserved: 'Haki zote zimehifadhiwa',
+    privacyPolicy: 'Sera ya Faragha',
+    termsOfService: 'Masharti ya Huduma',
+    helpCenter: 'Kituo cha Usaidizi',
+
     // Dashboard translations
     inventoryDashboard: "Dashibodi ya Hisa",
     realTimeOverview: "Muhtasari wa wakati halisi",
@@ -219,21 +333,24 @@ const translations = {
     lowStockAlert: "Tahadhari ya Hisa Chache",
     itemsNeedReordering: "Bidhaa 5 zinahitaji kuagizwa tena",
     liveUpdate: "Sasisho la moja kwa moja",
-    aiPrediction: "Utabiri wa Akili Bandia",
     nextRestock: "Usajili ujao: siku 3",
-    
+
     // Stats
     statUptime: "Muda wa Uendeshaji wa Mfumo",
     statBusinesses: "Biashara Zinaiamini",
     statCostReduction: "Kiwango cha Kupunguzwa kwa Gharama",
     statTimeSaved: "Muda uliohifadhiwa Kila Wiki",
-    
+
+    activeUsers: 'Watumiaji Wanatumia',
+    uptime: 'Muda wa Kazi',
+    support: 'Usaidizi',
+
     // Features
     powerfulFeatures: "VIPANDE VYEUSE",
     featuresTitle1: "Kila Unachohitaji kwa",
     featuresTitle2: "Usimamizi wa Kisasa wa Hisa",
     featuresDescription: "Kutoka utabiri unaotumia akili bandia hadi ushirikiano wa wakati halisi, jukwaa letu linatoa kila unachohitaji ili kuboresha shughuli zako za hisa.",
-    
+
     // Feature details
     featureRealTimeAnalytics: "Uchambuzi wa Wakati Halisi",
     featureRealTimeAnalyticsDesc: "Fuatilia viwango vya hisa, mienendo ya mauzo, na mauzo ya hisa na dashibodi za moja kwa moja.",
@@ -253,7 +370,7 @@ const translations = {
     featureBarcodeSystem: "Mfumo wa Msimbo Mchoro",
     featureBarcodeSystemDesc: "Uchanganuzi wa msimbo mchoro wa rununu na uwezo wa kuunganishwa kwa RFID.",
     featureBarcodeSystemStat: "Hesabu 5x kwa kasi",
-    
+
     // Pricing
     simplePricing: "UANZISHAJI WA BEPARI RAHISI",
     chooseYourPlan: "Chagua Mpango Wako Kamili",
@@ -268,7 +385,7 @@ const translations = {
     customPrice: "Maalum",
     tailored: "/iliyobinafsishwa",
     mostPopular: "Inayopendwa Zaidi",
-    
+
     // Plan features
     featureUpTo500Products: "Hadi bidhaa 500",
     feature2UserAccounts: "Akaunti 2 za watumiaji",
@@ -289,10 +406,10 @@ const translations = {
     featureCustomIntegrations: "Ujumuishaji uliobinafsishwa",
     featureDedicatedAccountManager: "Msimamizi wa akaunti aliyeteuliwa",
     featureOnPremiseDeployment: "Usakinishaji wa ndani ya jengo",
-    
+
     needCustomSolution: "Unahitaji suluhisho maalum?",
     contactSalesTeam: "Wasiliana na timu yetu ya mauzo →",
-    
+
     // Testimonials
     trustedByIndustryLeaders: "INAAMINIKA NA VIONGOZI WA SEKTA",
     lovedByBusinesses: "Inapendwa na Maelfu ya Biashara",
@@ -304,7 +421,7 @@ const translations = {
     testimonialText3: "Kiolesura cha kuvutia chenye utoaji taarifa wenye nguvu. Timu yetu iliikubali kwa siku moja na usahihi wa hisa zetu sasa ni 99.9%.",
     verifiedCustomer: "Mteja aliethibitishwa",
     monthsUsingStockMaster: "Miezi 6 ikitumia StockMaster",
-    
+
     // CTA
     freeTrialNoCreditCard: "JARIBIO LA BURE LA SIKU 14 • HAKUNA KADI YA MKOPO INAYOTAKIWA",
     ctaTitle1: "Tayari Kubadilisha",
@@ -317,7 +434,7 @@ const translations = {
     freeUpdates: "Sasisho za Bure",
     support247: "Msaada 24/7",
     dataOwnership: "Umiliki wa Data",
-    
+
     // Footer
     powerfulInventoryManagement: "Usimamizi wenye nguvu wa hisa",
     footerDescription: "Kuwawezesha biashara ulimwenguni kote na suluhisho za hisa zenye akili. Rahisisha shughuli, punguza gharama, na kua kwa ujasiri.",
@@ -346,7 +463,25 @@ const translations = {
     privacyPolicy: "Sera ya Faragha",
     termsOfService: "Masharti ya Huduma",
     cookiePolicy: "Sera ya Kuki",
-    gdprCompliance: "Kufuata GDPR"
+    gdprCompliance: "Kufuata GDPR",
+
+    orders: 'Maagizo',
+    products: 'Bidhaa',
+    users: 'Watumiaji',
+    logout: 'Toka',
+    welcome: 'Karibu',
+    dashboardSummary: 'Muhtasari wa Dashibodi',
+    addProductDesc: 'Ongeza bidhaa mpya ya hisa',
+    createOrderDesc: 'Chakata mauzo mapya',
+    generateReportDesc: 'Toa data ya mauzo',
+    manageUsersDesc: 'Ruhusa za watumiaji',
+    item: 'kitu',
+    items: 'vitu',
+    sold: 'iliyouzwa',
+    totalRevenueFromSales: 'Mapato jumla kutokana na mauzo',
+    recentActivity: 'Shughuli za Hivi Karibuni',
+    version: 'Toleo',
+    refreshing: 'Inasasisha data...',
   }
 };
 

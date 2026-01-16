@@ -1,5 +1,5 @@
 // Navbar.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpg';
 import { 
@@ -18,7 +18,6 @@ import {
   FiMenu,
   FiX
 } from 'react-icons/fi';
-import { MdInventory } from 'react-icons/md';
 import { useTranslation } from '../Context/TranslationContext';
 
 function Navbar() {
@@ -27,7 +26,34 @@ function Navbar() {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
+
+  // Check if user is logged in on component mount
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  const checkAuthStatus = () => {
+    // Check for token in localStorage (or sessionStorage)
+    const token = localStorage.getItem('authToken');
+    const userData = localStorage.getItem('userData');
+    
+    if (token) {
+      setIsLoggedIn(true);
+      if (userData) {
+        try {
+          setUserInfo(JSON.parse(userData));
+        } catch (error) {
+          console.error('Error parsing user data:', error);
+        }
+      }
+    } else {
+      setIsLoggedIn(false);
+      setUserInfo(null);
+    }
+  };
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
@@ -35,7 +61,18 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    console.log('Logging out...');
+    // Clear authentication data
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userData');
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('userData');
+    
+    // Reset state
+    setIsLoggedIn(false);
+    setUserInfo(null);
+    setShowUserDropdown(false);
+    
+    // Redirect to login page
     navigate('/login');
   };
 
@@ -54,13 +91,47 @@ function Navbar() {
   ];
 
   const navLinks = [
-    { to: "/", icon: <FiHome />, text: t('home') },
-    { to: "/inventory", icon: <FiPackage />, text: t('inventory') },
-    { to: "/orders", icon: <FiShoppingCart />, text: t('orders') },
-    { to: "/customers", icon: <FiUsers />, text: t('customers') },
-    { to: "/reports", icon: <FiBarChart2 />, text: t('reports') },
+    { to: "/", icon: <FiHome />, text: t('Home') },
+    { to: "/Service", icon: <FiPackage />, text: t('Service') },
+    { to: "/Aboutus", icon: <FiShoppingCart />, text: t('About Us') },
+    { to: "/Contacts", icon: <FiUsers />, text: t('Contacts') },
+    { to: "/signUp", icon: <FiBarChart2 />, text: t('Signup') },
     { to: "/settings", icon: <FiSettings />, text: t('settings') },
   ];
+
+  // Conditionally show different nav links based on authentication
+  const getNavLinks = () => {
+    const baseLinks = [
+      { to: "/", icon: <FiHome />, text: t('Home') },
+      { to: "/Service", icon: <FiPackage />, text: t('Service') },
+      { to: "/Aboutus", icon: <FiShoppingCart />, text: t('About Us') },
+      { to: "/Contacts", icon: <FiUsers />, text: t('Contacts') },
+    ];
+
+    if (isLoggedIn) {
+      return [
+        ...baseLinks,
+        { to: "/dashboard", icon: <FiBarChart2 />, text: t('Dashboard') },
+        { to: "/settings", icon: <FiSettings />, text: t('settings') },
+      ];
+    } else {
+      return [
+        ...baseLinks,
+        { to: "/signUp", icon: <FiBarChart2 />, text: t('Signup') },
+      ];
+    }
+  };
+
+  // Get user initials for avatar
+  const getUserInitials = () => {
+    if (!userInfo?.name) return 'U';
+    return userInfo.name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  };
 
   return (
     <>
@@ -76,15 +147,15 @@ function Navbar() {
               >
                 {showMobileMenu ? <FiX size={24} /> : <FiMenu size={24} />}
               </button>
-              <img src={logo} alt="IMS Logo"  className='h-12 w-12 text-blue-200 rounded'/>
+              <img src={logo} alt="IMS Logo" className="h-12 w-12 text-blue-200 rounded"/>
               <Link to="/" className="text-2xl font-bold hover:text-blue-200 transition duration-300">
-               IMS
+                IMS
               </Link>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-1">
-              {navLinks.map((link) => (
+              {getNavLinks().map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
@@ -118,11 +189,13 @@ function Navbar() {
             {/* Right Side Actions */}
             <div className="flex items-center space-x-4">
               
-              {/* Notifications */}
-              <button className="relative p-2 rounded-full hover:bg-blue-700 hover:bg-opacity-50 transition duration-300">
-                <FiBell className="h-5 w-5" />
-                <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-              </button>
+              {/* Notifications (only show when logged in) */}
+              {isLoggedIn && (
+                <button className="relative p-2 rounded-full hover:bg-blue-700 hover:bg-opacity-50 transition duration-300">
+                  <FiBell className="h-5 w-5" />
+                  <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+                </button>
+              )}
 
               {/* Language Selector */}
               <div className="relative">
@@ -169,63 +242,78 @@ function Navbar() {
                 )}
               </div>
 
-              {/* User Profile Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => {
-                    setShowUserDropdown(!showUserDropdown);
-                    setShowLanguageDropdown(false);
-                  }}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-blue-700 hover:bg-opacity-50 transition duration-300"
-                >
-                  <div className="h-8 w-8 bg-blue-400 rounded-full flex items-center justify-center">
-                    <FiUser className="h-5 w-5" />
-                  </div>
-                  <span className="hidden md:inline font-medium">{t('profile')}</span>
-                  <FiChevronDown className={`h-4 w-4 transition-transform duration-300 ${showUserDropdown ? 'rotate-180' : ''}`} />
-                </button>
-
-                {showUserDropdown && (
-                  <>
-                    <div 
-                      className="fixed inset-0 z-10" 
-                      onClick={() => setShowUserDropdown(false)}
-                    />
-                    <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl z-20 py-1 border border-gray-200">
-                      <div className="px-4 py-3 border-b">
-                        <p className="font-semibold">John Doe</p>
-                        <p className="text-sm text-gray-600">admin@stockmaster.com</p>
-                      </div>
-                      
-                      <Link
-                        to="/profile"
-                        className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 transition duration-200"
-                        onClick={() => setShowUserDropdown(false)}
-                      >
-                        <FiUser className="h-4 w-4" />
-                        <span>{t('profile')}</span>
-                      </Link>
-                      
-                      <Link
-                        to="/settings"
-                        className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 transition duration-200"
-                        onClick={() => setShowUserDropdown(false)}
-                      >
-                        <FiSettings className="h-4 w-4" />
-                        <span>{t('settings')}</span>
-                      </Link>
-                      
-                      <button
-                        onClick={handleLogout}
-                        className="flex items-center space-x-2 w-full px-4 py-2 text-red-600 hover:bg-red-50 transition duration-200"
-                      >
-                        <FiLogOut className="h-4 w-4" />
-                        <span>{t('logout')}</span>
-                      </button>
+              {/* User Profile Dropdown (only show when logged in) */}
+              {isLoggedIn ? (
+                <div className="relative">
+                  <button
+                    onClick={() => {
+                      setShowUserDropdown(!showUserDropdown);
+                      setShowLanguageDropdown(false);
+                    }}
+                    className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-blue-700 hover:bg-opacity-50 transition duration-300"
+                  >
+                    <div className="h-8 w-8 bg-blue-400 rounded-full flex items-center justify-center font-semibold text-white">
+                      {getUserInitials()}
                     </div>
-                  </>
-                )}
-              </div>
+                    <span className="hidden md:inline font-medium">
+                      {userInfo?.name || t('profile')}
+                    </span>
+                    <FiChevronDown className={`h-4 w-4 transition-transform duration-300 ${showUserDropdown ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {showUserDropdown && (
+                    <>
+                      <div 
+                        className="fixed inset-0 z-10" 
+                        onClick={() => setShowUserDropdown(false)}
+                      />
+                      <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl z-20 py-1 border border-gray-200">
+                        <div className="px-4 py-3 border-b">
+                          <p className="font-semibold">{userInfo?.name || 'User'}</p>
+                          <p className="text-sm text-gray-600 truncate">
+                            {userInfo?.email || 'user@example.com'}
+                          </p>
+                        </div>
+                        
+                        <Link
+                          to="/profile"
+                          className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 transition duration-200"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <FiUser className="h-4 w-4" />
+                          <span>{t('profile')}</span>
+                        </Link>
+                        
+                        <Link
+                          to="/settings"
+                          className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 transition duration-200"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <FiSettings className="h-4 w-4" />
+                          <span>{t('settings')}</span>
+                        </Link>
+                        
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center space-x-2 w-full px-4 py-2 text-red-600 hover:bg-red-50 transition duration-200"
+                        >
+                          <FiLogOut className="h-4 w-4" />
+                          <span>{t('logout')}</span>
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                // Login button when not logged in
+                <Link
+                  to="/login"
+                  className="flex items-center space-x-2 px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition duration-300 font-medium"
+                >
+                  <FiUser className="h-4 w-4" />
+                  <span className="hidden md:inline">{t('login')}</span>
+                </Link>
+              )}
             </div>
           </div>
 
@@ -252,7 +340,7 @@ function Navbar() {
         <div className="lg:hidden bg-white shadow-lg border-t border-gray-200">
           <div className="container mx-auto px-4 py-4">
             <div className="space-y-2">
-              {navLinks.map((link) => (
+              {getNavLinks().map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
@@ -288,6 +376,41 @@ function Navbar() {
                 ))}
               </div>
             </div>
+
+            {/* Mobile User Info if logged in */}
+            {isLoggedIn && userInfo && (
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="px-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="h-10 w-10 bg-blue-400 rounded-full flex items-center justify-center font-semibold text-white">
+                      {getUserInitials()}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">{userInfo.name}</p>
+                      <p className="text-sm text-gray-600 truncate">{userInfo.email}</p>
+                    </div>
+                  </div>
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    <Link
+                      to="/profile"
+                      className="text-center px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition duration-200 text-sm font-medium"
+                      onClick={() => setShowMobileMenu(false)}
+                    >
+                      {t('profile')}
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setShowMobileMenu(false);
+                      }}
+                      className="px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition duration-200 text-sm font-medium"
+                    >
+                      {t('logout')}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
