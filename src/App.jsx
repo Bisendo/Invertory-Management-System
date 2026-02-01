@@ -5,6 +5,8 @@ import Home from "./pages/LandingPage";
 import RegisterForm from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import OrderManagement from './pages/Orders';
+import Products from './pages/Products';
 
 // Import other pages as you create them
 // import Inventory from "./pages/Inventory";
@@ -24,12 +26,14 @@ const App = () => {
             <Route path="/signUp" element={<RegisterForm />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/orders" element={<OrderManagement />} />
+            <Route path="/products" element={<Products />} />
 
 
             {/* Uncomment and add these routes as you create the pages */}
             {/* 
             <Route path="/inventory" element={<Inventory />} />
-            <Route path="/orders" element={<Orders />} />
+           
             <Route path="/customers" element={<Customers />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />

@@ -17,12 +17,61 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 import { useTranslation } from "../Context/TranslationContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Define menuItems array
+  const menuItems = [
+    {
+      icon: <FiHome />,
+      text: t('dashboard') || 'Dashboard',
+      path: '/dashboard',
+      active: location.pathname === '/dashboard'
+    },
+    {
+      icon: <FiShoppingCart />,
+      text: t('Orders') || 'Orders',
+      path: '/orders',
+      active: location.pathname === '/orders'
+    },
+    {
+      icon: <FiBox />,
+      text: t('products') || 'Products',
+      path: '/products',
+      active: location.pathname === '/products'
+    },
+    {
+      icon: <FiUsers />,
+      text: t('customers') || 'Customers',
+      path: '/customers',
+      active: location.pathname === '/customers'
+    },
+    {
+      icon: <FiBarChart2 />,
+      text: t('reports') || 'Reports',
+      path: '/reports',
+      active: location.pathname === '/reports'
+    },
+    {
+      icon: <FiHelpCircle />,
+      text: t('help') || 'Help & Support',
+      path: '/help',
+      active: location.pathname === '/help'
+    },
+    {
+      icon: <FiLogOut />,
+      text: t('logout') || 'Logout',
+      path: '/logout',
+      active: location.pathname === '/logout'
+    },
+  ];
 
   const soldProducts = [
     {
@@ -70,14 +119,16 @@ const Dashboard = () => {
     setTimeout(() => setIsLoading(false), 1000);
   };
 
-  const menuItems = [
-    { icon: <FiHome />, text: t('dashboard') || 'Dashboard', active: true },
-    { icon: <FiShoppingCart />, text: t('orders') || 'Orders' },
-    { icon: <FiBox />, text: t('products') || 'Products' },
-    { icon: <FiUsers />, text: t('users') || 'Users' },
-    { icon: <FiHelpCircle />, text: t('helpCenter') || 'Help Center' },
-    { icon: <FiLogOut />, text: t('logout') || 'Logout' },
-  ];
+  const handleNavigation = (path) => {
+    if (path === '/logout') {
+      // Handle logout logic here
+      console.log('Logging out...');
+      // Example: navigate('/login');
+    } else {
+      navigate(path);
+    }
+    setSidebarOpen(false); // Close sidebar on mobile after navigation
+  };
 
   const statsData = [
     {
@@ -112,13 +163,6 @@ const Dashboard = () => {
       color: "orange",
       trend: "up"
     },
-  ];
-
-  const quickActions = [
-    { title: t('addProduct') || 'Add Product', description: t('addProductDesc') || 'Add new inventory item', icon: "📦", color: "blue" },
-    { title: t('createOrder') || 'Create Order', description: t('createOrderDesc') || 'Process new sale', icon: "💰", color: "green" },
-    { title: t('generateReport') || 'Generate Report', description: t('generateReportDesc') || 'Export sales data', icon: "📊", color: "purple" },
-    { title: t('manageUsers') || 'Manage Users', description: t('manageUsersDesc') || 'User permissions', icon: "👥", color: "orange" },
   ];
 
   return (
@@ -164,7 +208,7 @@ const Dashboard = () => {
                 icon={item.icon}
                 text={item.text}
                 active={item.active}
-                onClick={() => setSidebarOpen(false)}
+                onClick={() => handleNavigation(item.path)}
               />
             ))}
           </nav>
@@ -248,7 +292,6 @@ const Dashboard = () => {
                 </div>
               </div>
 
-            
             </div>
 
             {/* SOLD PRODUCTS */}
