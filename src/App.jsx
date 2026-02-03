@@ -5,8 +5,13 @@ import Home from "./pages/LandingPage";
 import RegisterForm from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import OrderManagement from './pages/Orders';
+import OrderManagement from './pages/AddNewOrder';
 import Products from './pages/Products';
+import HelpCenter from './pages/Helpcenter';
+import Orders from './pages/Orders';
+import AddProductForm from './pages/AddNewProduct';
+import Users from './pages/Users';
+import AboutUs from './pages/Aboutus';
 
 // Import other pages as you create them
 // import Inventory from "./pages/Inventory";
@@ -26,20 +31,17 @@ const App = () => {
             <Route path="/signUp" element={<RegisterForm />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/orders" element={<OrderManagement />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/add-order" element={<OrderManagement />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/help" element={<HelpCenter />} />
+            <Route path="/add-product" element={<AddProductForm />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/Aboutus" element={<AboutUs />} />
 
 
-            {/* Uncomment and add these routes as you create the pages */}
-            {/* 
-            <Route path="/inventory" element={<Inventory />} />
-           
-            <Route path="/customers" element={<Customers />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/search" element={<SearchResults />} />
-            */}
+
+
           </Routes>
         </main>
       </div>

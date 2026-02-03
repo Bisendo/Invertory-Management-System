@@ -49,15 +49,9 @@ const Dashboard = () => {
     },
     {
       icon: <FiUsers />,
-      text: t('customers') || 'Customers',
-      path: '/customers',
-      active: location.pathname === '/customers'
-    },
-    {
-      icon: <FiBarChart2 />,
-      text: t('reports') || 'Reports',
-      path: '/reports',
-      active: location.pathname === '/reports'
+      text: t('users') || 'Users',
+      path: '/users',
+      active: location.pathname === '/users'
     },
     {
       icon: <FiHelpCircle />,
@@ -68,7 +62,7 @@ const Dashboard = () => {
     {
       icon: <FiLogOut />,
       text: t('logout') || 'Logout',
-      path: '/logout',
+      path: '/login',
       active: location.pathname === '/logout'
     },
   ];
@@ -170,7 +164,7 @@ const Dashboard = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-600 text-white rounded-lg shadow-lg"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-700 text-white rounded-lg shadow-lg"
       >
         {sidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </button>

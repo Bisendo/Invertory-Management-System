@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Menu, Plus, Minus, X, Home, Package, Users, HelpCircle, LogOut, ShoppingCart } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Products = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
   
   const products = [
     {
@@ -48,13 +50,58 @@ const Products = () => {
   ];
 
   const menuItems = [
-    { name: "Dashboard", icon: <Home size={18} />, active: false },
-    { name: "Orders", icon: <ShoppingCart size={18} />, active: false },
-    { name: "Products", icon: <Package size={18} />, active: true },
-    { name: "Users", icon: <Users size={18} />, active: false },
-    { name: "Help Center", icon: <HelpCircle size={18} />, active: false },
-    { name: "Logout", icon: <LogOut size={18} />, active: false, isLogout: true },
+    { 
+      name: "Dashboard", 
+      icon: <Home size={18} />, 
+      active: false, 
+      path: "/dashboard" 
+    },
+    { 
+      name: "Orders", 
+      icon: <ShoppingCart size={18} />, 
+      active: false, 
+      path: "/orders" 
+    },
+    { 
+      name: "Products", 
+      icon: <Package size={18} />, 
+      active: true, 
+      path: "/products" 
+    },
+    { 
+      name: "Users", 
+      icon: <Users size={18} />, 
+      active: false, 
+      path: "/users" 
+    },
+    { 
+      name: "Help Center", 
+      icon: <HelpCircle size={18} />, 
+      active: false, 
+      path: "/help" 
+    },
+    { 
+      name: "Logout", 
+      icon: <LogOut size={18} />, 
+      active: false, 
+      isLogout: true,
+      action: () => {
+        // Handle logout logic
+        console.log("Logging out...");
+        // Navigate to login page after logout
+        navigate("/login");
+      }
+    },
   ];
+
+  const handleNavigation = (item) => {
+    if (item.isLogout && item.action) {
+      item.action();
+    } else if (item.path) {
+      navigate(item.path);
+    }
+    setSidebarOpen(false); // Close sidebar on mobile after navigation
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -72,6 +119,23 @@ const Products = () => {
       case "Out of Stock": return "🔴";
       default: return "⚪";
     }
+  };
+
+  const handleAddProduct = () => {
+    // Navigate to add product page or show modal
+    console.log("Add new product clicked");
+    // Example: navigate("/products/add");
+  };
+
+  const handleViewDetails = (productId) => {
+    // Navigate to product details page
+    navigate(`/products/${productId}`);
+    console.log(`Viewing details for product ID: ${productId}`);
+  };
+
+  const handlePagination = (action) => {
+    // Handle pagination logic
+    console.log(`Pagination: ${action}`);
   };
 
   return (
@@ -112,10 +176,11 @@ const Products = () => {
           
           <nav className="space-y-2">
             {menuItems.map((item, index) => (
-              <div
+              <button
                 key={index}
+                onClick={() => handleNavigation(item)}
                 className={`
-                  flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200
+                  flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200 w-full text-left
                   ${item.active 
                     ? 'bg-blue-700 text-white' 
                     : 'hover:bg-blue-700 hover:bg-opacity-50 text-blue-100'
@@ -128,7 +193,7 @@ const Products = () => {
                 {item.active && (
                   <div className="ml-auto w-2 h-2 bg-white rounded-full"></div>
                 )}
-              </div>
+              </button>
             ))}
           </nav>
 
@@ -155,15 +220,47 @@ const Products = () => {
                 <p className="text-gray-600 text-sm mt-1">Manage your inventory products and stock levels</p>
               </div>
 
-              <button className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm">
+              <Link 
+                to="/add-product"
+                className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm"
+              >
                 <Plus size={18} />
                 Add New Product
-              </button>
+              </Link>
             </div>
           </header>
 
           {/* Main Content Area */}
           <main className="p-4 sm:p-6">
+            {/* Stats Overview */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                <p className="text-gray-500 text-sm mb-1">Total Products</p>
+                <p className="text-2xl font-bold text-gray-800">{products.length}</p>
+                <p className="text-green-600 text-xs mt-1">All Categories</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                <p className="text-gray-500 text-sm mb-1">In Stock</p>
+                <p className="text-2xl font-bold text-gray-800">
+                  {products.filter(p => p.status === "Available").length}
+                </p>
+                <p className="text-blue-600 text-xs mt-1">Available for sale</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                <p className="text-gray-500 text-sm mb-1">Low Stock</p>
+                <p className="text-2xl font-bold text-gray-800">
+                  {products.filter(p => p.status === "Low Stock").length}
+                </p>
+                <p className="text-amber-600 text-xs mt-1">Need reorder</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                <p className="text-gray-500 text-sm mb-1">Out of Stock</p>
+                <p className="text-2xl font-bold text-gray-800">
+                  {products.filter(p => p.status === "Out of Stock").length}
+                </p>
+                <p className="text-red-600 text-xs mt-1">Restock needed</p>
+              </div>
+            </div>
 
             {/* Products Table Card */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -176,10 +273,18 @@ const Products = () => {
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <button 
+                      onClick={handleAddProduct}
+                      className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                      title="Add Product"
+                    >
                       <Plus size={18} />
                     </button>
-                    <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <button 
+                      onClick={() => console.log("Remove product clicked")}
+                      className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                      title="Remove Product"
+                    >
                       <Minus size={18} />
                     </button>
                   </div>
@@ -219,7 +324,10 @@ const Products = () => {
                                   {product.status}
                                 </span>
                                 
-                                <button className="px-4 py-2 border border-blue-400 text-blue-600 hover:bg-blue-50 rounded-lg text-sm font-medium transition-colors">
+                                <button 
+                                  onClick={() => handleViewDetails(product.id)}
+                                  className="px-4 py-2 border border-blue-400 text-blue-600 hover:bg-blue-50 rounded-lg text-sm font-medium transition-colors"
+                                >
                                   View Details
                                 </button>
                               </div>
@@ -305,13 +413,19 @@ const Products = () => {
                   </p>
                   
                   <div className="flex items-center gap-2">
-                    <button className="px-3 py-1 text-gray-600 hover:bg-white border border-gray-300 rounded text-sm">
+                    <button 
+                      onClick={() => handlePagination('previous')}
+                      className="px-3 py-1 text-gray-600 hover:bg-white border border-gray-300 rounded text-sm"
+                    >
                       Previous
                     </button>
                     <button className="px-3 py-1 bg-blue-600 text-white hover:bg-blue-700 border border-blue-600 rounded text-sm">
                       1
                     </button>
-                    <button className="px-3 py-1 text-gray-600 hover:bg-white border border-gray-300 rounded text-sm">
+                    <button 
+                      onClick={() => handlePagination('next')}
+                      className="px-3 py-1 text-gray-600 hover:bg-white border border-gray-300 rounded text-sm"
+                    >
                       Next
                     </button>
                   </div>
@@ -330,6 +444,13 @@ const Products = () => {
                 <span>Version 2.1.0</span>
                 <span className="mx-2">•</span>
                 <span>Last updated: Today</span>
+                <span className="mx-2">•</span>
+                <button 
+                  onClick={() => navigate("/settings")}
+                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  Settings
+                </button>
               </div>
             </div>
           </footer>

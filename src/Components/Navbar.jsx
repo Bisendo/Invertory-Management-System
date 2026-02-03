@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpg';
-import { 
-  FiHome, 
-  FiPackage, 
-  FiShoppingCart, 
-  FiUsers, 
+import {
+  FiHome,
+  FiPackage,
+  FiShoppingCart,
+  FiUsers,
   FiBarChart2,
   FiSettings,
   FiGlobe,
@@ -14,7 +14,6 @@ import {
   FiLogOut,
   FiUser,
   FiBell,
-  FiSearch,
   FiMenu,
   FiX
 } from 'react-icons/fi';
@@ -25,7 +24,6 @@ function Navbar() {
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
@@ -39,7 +37,7 @@ function Navbar() {
     // Check for token in localStorage (or sessionStorage)
     const token = localStorage.getItem('authToken');
     const userData = localStorage.getItem('userData');
-    
+
     if (token) {
       setIsLoggedIn(true);
       if (userData) {
@@ -66,23 +64,17 @@ function Navbar() {
     localStorage.removeItem('userData');
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('userData');
-    
+
     // Reset state
     setIsLoggedIn(false);
     setUserInfo(null);
     setShowUserDropdown(false);
-    
+
     // Redirect to login page
     navigate('/login');
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery('');
-    }
-  };
+ 
 
   // Languages with Swahili
   const languages = [
@@ -94,7 +86,6 @@ function Navbar() {
     { to: "/", icon: <FiHome />, text: t('Home') },
     { to: "/Service", icon: <FiPackage />, text: t('Service') },
     { to: "/Aboutus", icon: <FiShoppingCart />, text: t('About Us') },
-    { to: "/Contacts", icon: <FiUsers />, text: t('Contacts') },
     { to: "/signUp", icon: <FiBarChart2 />, text: t('Signup') },
     { to: "/settings", icon: <FiSettings />, text: t('settings') },
   ];
@@ -105,7 +96,6 @@ function Navbar() {
       { to: "/", icon: <FiHome />, text: t('Home') },
       { to: "/Service", icon: <FiPackage />, text: t('Service') },
       { to: "/Aboutus", icon: <FiShoppingCart />, text: t('About Us') },
-      { to: "/Contacts", icon: <FiUsers />, text: t('Contacts') },
     ];
 
     if (isLoggedIn) {
@@ -138,16 +128,16 @@ function Navbar() {
       <nav className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            
+
             {/* Logo/Brand and Mobile Menu Toggle */}
             <div className="flex items-center space-x-3">
-              <button 
+              <button
                 className="lg:hidden p-2 rounded-md hover:bg-blue-700 transition duration-300"
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
               >
                 {showMobileMenu ? <FiX size={24} /> : <FiMenu size={24} />}
               </button>
-              <img src={logo} alt="IMS Logo" className="h-12 w-12 text-blue-200 rounded"/>
+              <img src={logo} alt="IMS Logo" className="h-12 w-12 text-blue-200 rounded" />
               <Link to="/" className="text-2xl font-bold hover:text-blue-200 transition duration-300">
                 IMS
               </Link>
@@ -170,25 +160,11 @@ function Navbar() {
               ))}
             </div>
 
-            {/* Search Bar - Desktop */}
-            <div className="hidden md:flex flex-1 max-w-md mx-4">
-              <form onSubmit={handleSearch} className="w-full">
-                <div className="relative">
-                  <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={t('searchPlaceholder')}
-                    className="w-full pl-10 pr-4 py-2 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </form>
-            </div>
+
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-4">
-              
+
               {/* Notifications (only show when logged in) */}
               {isLoggedIn && (
                 <button className="relative p-2 rounded-full hover:bg-blue-700 hover:bg-opacity-50 transition duration-300">
@@ -213,8 +189,8 @@ function Navbar() {
 
                 {showLanguageDropdown && (
                   <>
-                    <div 
-                      className="fixed inset-0 z-10" 
+                    <div
+                      className="fixed inset-0 z-10"
                       onClick={() => setShowLanguageDropdown(false)}
                     />
                     <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl z-20 py-1 border border-gray-200">
@@ -222,9 +198,8 @@ function Navbar() {
                         <button
                           key={lang.code}
                           onClick={() => handleLanguageChange(lang.code)}
-                          className={`flex items-center space-x-3 w-full px-4 py-2 hover:bg-gray-100 transition duration-200 ${
-                            language === lang.code ? 'bg-blue-50 text-blue-600 font-medium' : ''
-                          }`}
+                          className={`flex items-center space-x-3 w-full px-4 py-2 hover:bg-gray-100 transition duration-200 ${language === lang.code ? 'bg-blue-50 text-blue-600 font-medium' : ''
+                            }`}
                         >
                           <span className="text-xl">{lang.flag}</span>
                           <span>{lang.name}</span>
@@ -263,8 +238,8 @@ function Navbar() {
 
                   {showUserDropdown && (
                     <>
-                      <div 
-                        className="fixed inset-0 z-10" 
+                      <div
+                        className="fixed inset-0 z-10"
                         onClick={() => setShowUserDropdown(false)}
                       />
                       <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-xl z-20 py-1 border border-gray-200">
@@ -274,7 +249,7 @@ function Navbar() {
                             {userInfo?.email || 'user@example.com'}
                           </p>
                         </div>
-                        
+
                         <Link
                           to="/profile"
                           className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 transition duration-200"
@@ -283,7 +258,7 @@ function Navbar() {
                           <FiUser className="h-4 w-4" />
                           <span>{t('profile')}</span>
                         </Link>
-                        
+
                         <Link
                           to="/settings"
                           className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 transition duration-200"
@@ -292,7 +267,7 @@ function Navbar() {
                           <FiSettings className="h-4 w-4" />
                           <span>{t('settings')}</span>
                         </Link>
-                        
+
                         <button
                           onClick={handleLogout}
                           className="flex items-center space-x-2 w-full px-4 py-2 text-red-600 hover:bg-red-50 transition duration-200"
@@ -317,21 +292,7 @@ function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Search Bar */}
-          <div className="md:hidden mt-2 pb-3">
-            <form onSubmit={handleSearch} className="w-full">
-              <div className="relative">
-                <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t('searchPlaceholder')}
-                  className="w-full pl-10 pr-4 py-2 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </form>
-          </div>
+
         </div>
       </nav>
 
@@ -352,7 +313,7 @@ function Navbar() {
                 </Link>
               ))}
             </div>
-            
+
             {/* Mobile Language Selection */}
             <div className="mt-6 pt-6 border-t border-gray-200">
               <p className="px-4 text-sm font-medium text-gray-500 mb-2">{t('language')}</p>
@@ -364,11 +325,10 @@ function Navbar() {
                       handleLanguageChange(lang.code);
                       setShowMobileMenu(false);
                     }}
-                    className={`flex items-center justify-center space-x-2 px-3 py-2 rounded-lg transition duration-200 ${
-                      language === lang.code 
-                        ? 'bg-blue-100 text-blue-600 border border-blue-200' 
+                    className={`flex items-center justify-center space-x-2 px-3 py-2 rounded-lg transition duration-200 ${language === lang.code
+                        ? 'bg-blue-100 text-blue-600 border border-blue-200'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
+                      }`}
                   >
                     <span className="text-lg">{lang.flag}</span>
                     <span className="text-sm">{lang.name}</span>

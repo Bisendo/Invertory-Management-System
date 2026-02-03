@@ -8,21 +8,32 @@ const Landing = () => {
   const navigate = useNavigate();
   const [key, setKey] = useState(0);
 
-  // Restart typing every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setKey((prev) => prev + 1);
     }, 10000);
-
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-blue-900 text-white">
-      <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
+    <div className="min-h-screen w-full text-white relative overflow-hidden">
+
+      {/* 🌄 Background image for SMALL screens */}
+      <div className="absolute inset-0 md:hidden">
+        <img
+          src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d"
+          alt="Inventory"
+          className="w-full h-full object-cover"
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-blue-950/85"></div>
+      </div>
+
+      {/* Main Layout */}
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 min-h-screen">
 
         {/* LEFT SIDE */}
-        <div className="flex flex-col justify-center px-6 sm:px-12 bg-blue-950/80">
+        <div className="flex flex-col justify-center px-6 sm:px-12 md:bg-blue-950/80">
 
           {/* Typing Title */}
           <motion.h1
@@ -67,7 +78,7 @@ const Landing = () => {
           </motion.div>
         </div>
 
-        {/* RIGHT SIDE IMAGE */}
+        {/* RIGHT SIDE IMAGE (Desktop only) */}
         <div className="hidden md:block relative">
           <img
             src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d"

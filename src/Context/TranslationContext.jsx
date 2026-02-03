@@ -4,6 +4,70 @@ import React, { createContext, useState, useContext } from 'react';
 // Translation data
 const translations = {
   en: {
+
+       // Common
+    dashboard: "Dashboard",
+    orders: "Orders",
+    products: "Products",
+    users: "Users",
+    help: "Help & Support",
+    logout: "Logout",
+    welcome: "Welcome",
+    refresh: "Refresh",
+    allRightsReserved: "All rights reserved",
+    version: "Version",
+    inventoryManagementSystem: "Inventory Management System",
+    
+    // Help Center specific
+    helpCenter: "Help Center",
+    helpSupport: "Help & Support Center",
+    getHelpDescription: "Get help, contact support, or browse our documentation",
+    howCanWeHelp: "How can we help you today?",
+    supportDescription: "Our support team is here to assist you with any questions or issues.",
+    
+    // Support categories
+    liveChat: "Live Chat Support",
+    liveChatDesc: "Chat with our support team in real-time",
+    phoneSupport: "Phone Support",
+    phoneSupportDesc: "Call us for immediate assistance",
+    emailSupport: "Email Support",
+    emailSupportDesc: "Send us an email and we'll respond within 24 hours",
+    knowledgeBase: "Knowledge Base",
+    knowledgeBaseDesc: "Browse our documentation and tutorials",
+    
+    // Availability
+    available24_7: "24/7 Available",
+    businessHours: "Business Hours",
+    response24h: "Response within 24h",
+    alwaysAvailable: "Always Available",
+    
+    // Contact info
+    contactInformation: "Contact Information",
+    phone: "Phone",
+    email: "Email",
+    location: "Location",
+    callForSupport: "Call us for immediate support",
+    emailForSupport: "Email us for detailed inquiries",
+    physicalAddress: "Our physical office location",
+    workingHours: "Working Hours",
+    website: "Website",
+    
+    // FAQ
+    frequentlyAskedQuestions: "Frequently Asked Questions",
+    faqHowToAddProduct: "How do I add a new product?",
+    faqHowToAddProductAnswer: "Go to Products section, click 'Add New Product' button, fill in the product details, and save.",
+    faqTrackOrders: "How can I track my orders?",
+    faqTrackOrdersAnswer: "Navigate to Orders section where you can view all orders and their current status.",
+    faqResetPassword: "How do I reset my password?",
+    faqResetPasswordAnswer: "Click on your profile, select 'Settings', then 'Change Password'. You'll receive an email with instructions.",
+    faqGenerateReport: "How to generate inventory reports?",
+    faqGenerateReportAnswer: "Go to Reports section, select report type and date range, then click 'Generate Report'.",
+    
+    // Call to action
+    stillHaveQuestions: "Still have questions? We're here to help!",
+    callNow: "Call Now",
+    sendEmail: "Send Email",
+    supportAvailable: "Support available",
     home: "Dashboard",
     inventory: "Inventory",
     orders: "Orders",
@@ -482,6 +546,69 @@ const translations = {
     recentActivity: 'Shughuli za Hivi Karibuni',
     version: 'Toleo',
     refreshing: 'Inasasisha data...',
+      // Common
+    dashboard: "Dashibodi",
+    orders: "Maagizo",
+    products: "Bidhaa",
+    users: "Watumiaji",
+    help: "Usaidizi & Msaada",
+    logout: "Toka",
+    welcome: "Karibu",
+    refresh: "Sasisha",
+    allRightsReserved: "Haki zote zimehifadhiwa",
+    version: "Toleo",
+    inventoryManagementSystem: "Mfumo wa Usimamizi wa Hesabu",
+    
+    // Help Center specific
+    helpCenter: "Kituo cha Usaidizi",
+    helpSupport: "Kituo cha Usaidizi na Msaada",
+    getHelpDescription: "Pata usaidizi, wasiliana na timu yetu, au tazama hati zetu",
+    howCanWeHelp: "Tunaweza kukusaidia vipi leo?",
+    supportDescription: "Timu yetu ya usaidizi iko hapa kukusaidia na maswali yoyote au matatizo.",
+    
+    // Support categories
+    liveChat: "Usaidizi wa Mazungumzo ya Moja kwa Moja",
+    liveChatDesc: "Zungumza na timu yetu ya usaidizi kwa wakati halisi",
+    phoneSupport: "Usaidizi wa Simu",
+    phoneSupportDesc: "Tuite kwa usaidizi wa haraka",
+    emailSupport: "Usaidizi wa Barua Pepe",
+    emailSupportDesc: "Tutumie barua pepe na tutajibu ndani ya masaa 24",
+    knowledgeBase: "Msingi wa Maarifa",
+    knowledgeBaseDesc: "Vinjari hati zetu na mafunzo",
+    
+    // Availability
+    available24_7: "Inapatikana saa 24/7",
+    businessHours: "Masaa ya Biashara",
+    response24h: "Majibu ndani ya masaa 24",
+    alwaysAvailable: "Daima Inapatikana",
+    
+    // Contact info
+    contactInformation: "Taarifa za Mawasiliano",
+    phone: "Simu",
+    email: "Barua Pepe",
+    location: "Eneo",
+    callForSupport: "Tuite kwa usaidizi wa haraka",
+    emailForSupport: "Tutumie barua pepe kwa maswali ya kina",
+    physicalAddress: "Eneo la ofisi yetu halisi",
+    workingHours: "Masaa ya Kazi",
+    website: "Tovuti",
+    
+    // FAQ
+    frequentlyAskedQuestions: "Maswali Yanayoulizwa Mara Kwa Mara",
+    faqHowToAddProduct: "Ninawezaje kuongeza bidhaa mpya?",
+    faqHowToAddProductAnswer: "Nenda kwenye sehemu ya Bidhaa, bofya kitufe cha 'Ongeza Bidhaa Mpya', jaza maelezo ya bidhaa, na uhifadhi.",
+    faqTrackOrders: "Ninawezaje kufuatilia maagizo yangu?",
+    faqTrackOrdersAnswer: "Nenda kwenye sehemu ya Maagizo ambapo unaweza kutazama maagizo yote na hali yao ya sasa.",
+    faqResetPassword: "Ninawezaje kuweka upya nenosiri langu?",
+    faqResetPasswordAnswer: "Bofya kwenye wasifu wako, chagua 'Mipangilio', kisha 'Badilisha Nenosiri'. Utapokea barua pepe yenye maagizo.",
+    faqGenerateReport: "Jinsi ya kutengeneza ripoti za hesabu?",
+    faqGenerateReportAnswer: "Nenda kwenye sehemu ya Ripoti, chagua aina ya ripoti na kipindi cha tarehe, kisha bofya 'Tengeneza Ripoti'.",
+    
+    // Call to action
+    stillHaveQuestions: "Bado una maswali? Tuko hapa kukusaidia!",
+    callNow: "Piga Sasa",
+    sendEmail: "Tuma Barua Pepe",
+    supportAvailable: "Usaidizi unapatikana",
   }
 };
 

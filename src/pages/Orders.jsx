@@ -1,397 +1,329 @@
-import { useState } from "react";
-import { Minus, Plus, Menu, X } from "lucide-react";
+import React, { useState } from "react";
+import { 
+  FiHome, 
+  FiShoppingCart, 
+  FiBox, 
+  FiUsers, 
+  FiHelpCircle, 
+  FiLogOut, 
+  FiMenu,
+  FiX,
+  FiDollarSign,
+  FiCalendar,
+  FiPlus,
+  FiChevronRight
+} from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function OrdersPage() {
+const Orders = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "JBL Headsets",
-      price: 300000,
-      stock: 30,
-      qty: 2,
-      image: "https://images.unsplash.com/photo-1518443895914-5b9d37b1c71f",
-    },
-    {
-      id: 2,
-      name: "Speaker",
-      price: 120000,
-      stock: 10,
-      qty: 4,
-      image: "https://images.unsplash.com/photo-1585386959984-a41552262d42",
-    },
-    {
-      id: 3,
-      name: "JBL Speaker",
-      price: 650000,
-      stock: 20,
-      qty: 0,
-      image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db",
-    },
-    {
-      id: 4,
-      name: "Samsung TV",
-      price: 2500000,
-      stock: 40,
-      qty: 0,
-      image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1",
-    },
-  ]);
 
-  const updateQty = (id, type) => {
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? {
-              ...p,
-              qty:
-                type === "inc"
-                  ? Math.min(p.qty + 1, p.stock)
-                  : Math.max(p.qty - 1, 0),
-            }
-          : p
-      )
-    );
-  };
-
-  const totalProducts = products.filter((p) => p.qty > 0).length;
-  const totalUnits = products.reduce((sum, p) => sum + p.qty, 0);
-  const totalPrice = products.reduce((sum, p) => sum + p.qty * p.price, 0);
-
+  // Menu Items
   const menuItems = [
-    { name: "Dashboard", path: "/dashboard", icon: "🏠", active: location.pathname === "/dashboard" },
-    { name: "Orders", path: "/orders", icon: "📦", active: location.pathname === "/orders" },
-    { name: "Products", path: "/products", icon: "📊", active: location.pathname === "/products" },
-    { name: "Users", path: "/users", icon: "👥", active: location.pathname === "/users" },
-    { name: "Help center", path: "/help", icon: "❓", active: location.pathname === "/help" },
-    { name: "Logout", path: "/login", icon: "🚪", active: false, isLogout: true },
+    { icon: <FiHome />, text: "Dashboard", path: "/dashboard" },
+    { icon: <FiShoppingCart />, text: "Orders", path: "/orders", active: true },
+    { icon: <FiBox />, text: "Products", path: "/products" },
+    { icon: <FiUsers />, text: "Users", path: "/users" },
+    { icon: <FiHelpCircle />, text: "Help Center", path: "/help" },
+    { icon: <FiLogOut />, text: "Logout", path: "/logout", isLogout: true },
   ];
 
-  const handleNavigation = (path, isLogout = false) => {
-    if (isLogout) {
-      // Handle logout logic here
-      console.log("Logging out...");
-      // Clear any user session/tokens
-      // localStorage.removeItem('authToken');
-      // Then navigate to login
+  // Orders data matching the image
+  const ordersData = [
+    {
+      date: "January, 7 2026",
+      totalSales: 1020000,
+      products: [
+        {
+          name: "JBL Headsets",
+          pricePerUnit: 300000,
+          itemsSold: 3,
+          total: 900000,
+          image: "https://images.unsplash.com/photo-1585298723685-d7b9d5dde7f6?w=400&h=400&fit=crop"
+        },
+        {
+          name: "Speaker",
+          pricePerUnit: 120000,
+          itemsSold: 1,
+          total: 120000,
+          image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop"
+        }
+      ]
+    },
+    {
+      date: "January, 5 2026",
+      totalSales: 1300000,
+      products: [
+        {
+          name: "JBL Speaker",
+          pricePerUnit: 650000,
+          itemsSold: 2,
+          total: 1300000,
+          image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&h=400&fit=crop"
+        }
+      ]
+    },
+    {
+      date: "January, 3 2026",
+      totalSales: 2500000,
+      products: [
+        {
+          name: "Samsung TV",
+          pricePerUnit: 2500000,
+          itemsSold: 1,
+          total: 2500000,
+          image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&h=400&fit=crop"
+        }
+      ]
     }
-    navigate(path);
-    setSidebarOpen(false); // Close sidebar on mobile after navigation
+  ];
+
+  const handleNavigation = (path) => {
+    if (path === '/logout') {
+      // Handle logout logic
+      console.log('Logging out...');
+      navigate('/login');
+    } else {
+      navigate(path);
+    }
+    setSidebarOpen(false);
   };
 
   const handleAddOrder = () => {
-    // Get selected products
-    const selectedProducts = products.filter(p => p.qty > 0);
-    
-    if (selectedProducts.length === 0) {
-      alert("Please select at least one product to add to order");
-      return;
-    }
-
-    // Prepare order data
-    const orderData = {
-      products: selectedProducts,
-      totalProducts,
-      totalUnits,
-      totalPrice,
-      timestamp: new Date().toISOString(),
-      status: "pending"
-    };
-
-    console.log("Order created:", orderData);
-    
-    // In a real app, you would:
-    // 1. Save order to backend
-    // 2. Update product stock
-    // 3. Show success message
-    // 4. Redirect to orders list or show receipt
-    
-    alert(`Order created successfully!\nTotal: ${totalPrice.toLocaleString()} Tsh\nProducts: ${totalProducts}`);
-    
-    // Reset quantities after order
-    setProducts(prev => prev.map(p => ({ ...p, qty: 0 })));
+    navigate("/add-order");
   };
 
-  const handleSaveDraft = () => {
-    const selectedProducts = products.filter(p => p.qty > 0);
-    
-    if (selectedProducts.length === 0) {
-      alert("No items selected to save as draft");
-      return;
-    }
+  const formatCurrency = (amount) => {
+    return amount.toLocaleString("en-US") + " Tsh";
+  };
 
-    const draftData = {
-      products: selectedProducts,
-      totalProducts,
-      totalUnits,
-      totalPrice,
-      savedAt: new Date().toISOString()
-    };
-
-    // Save to localStorage or backend
-    localStorage.setItem('orderDraft', JSON.stringify(draftData));
-    alert("Order saved as draft successfully!");
+  const calculateTotalAllOrders = () => {
+    return ordersData.reduce((sum, order) => sum + order.totalSales, 0);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="min-h-screen bg-gray-50">
       {/* Mobile Menu Button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-blue-950 text-white rounded-lg shadow-lg"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-700 text-white rounded-lg shadow-lg"
       >
-        {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        {sidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </button>
 
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
-      <aside
-        className={`
-          fixed md:static inset-y-0 left-0 z-40 w-64 bg-blue-950 text-white p-6 flex-col gap-6
+      <div className="flex">
+        {/* Sidebar - Matches the image style */}
+        <aside className={`
+          fixed lg:static inset-y-0 left-0 z-40 w-64 bg-blue-900 text-white p-6 space-y-6
           transform transition-transform duration-300 ease-in-out
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-          md:translate-x-0 md:flex
-        `}
-      >
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-xl font-bold">Admin</h2>
-            <p className="text-blue-300 text-sm mt-1">admin@example.com</p>
-          </div>
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="md:hidden p-1 hover:bg-blue-900 rounded"
-          >
-            <X size={20} />
-          </button>
-        </div>
-        
-        <nav className="space-y-2 text-sm flex-1">
-          {menuItems.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => handleNavigation(item.path, item.isLogout)}
-              className={`
-                flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors duration-200
-                ${item.active 
-                  ? 'bg-blue-800 text-white font-semibold' 
-                  : 'hover:bg-blue-900 text-blue-100'
-                }
-                ${item.isLogout ? 'mt-6 border-t border-blue-800 pt-6' : ''}
-              `}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span>{item.name}</span>
-              {item.active && (
-                <div className="ml-auto w-2 h-2 bg-white rounded-full"></div>
-              )}
-            </div>
-          ))}
-        </nav>
-
-        {/* Sidebar Footer */}
-        <div className="mt-auto pt-6 border-t border-blue-800">
-          <p className="text-sm text-blue-300">IMS v2.0</p>
-          <p className="text-xs text-blue-400 mt-1">© 2024 Inventory System</p>
-          <div className="flex items-center gap-2 mt-3 text-xs text-blue-300">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span>Online</span>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-x-hidden">
-        {/* Header */}
-        <div className="mb-6 md:mb-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Create New Order</h1>
-              <p className="text-gray-600 mt-2">Select products and quantities for your order</p>
-            </div>
-            <div className="text-sm text-gray-500 bg-gray-100 px-3 py-2 rounded-lg">
-              Order ID: <span className="font-mono font-semibold">ORD-{Date.now().toString().slice(-6)}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Products Card */}
-        <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-blue-100 p-4 md:p-6 space-y-4 md:space-y-6 mb-6">
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          lg:translate-x-0
+        `}>
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800">Select Products</h2>
-            <span className="text-sm text-gray-500">
-              {products.filter(p => p.qty > 0).length} of {products.length} selected
-            </span>
-          </div>
-          
-          {products.map((p) => (
-            <div
-              key={p.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 md:pb-6 border-b last:border-b-0"
+            <h2 className="text-2xl font-bold">Admin orders page</h2>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-1 hover:bg-blue-800 rounded"
             >
-              {/* Product Info */}
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-4 flex-1">
-                <div className="relative">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="w-20 h-20 md:w-24 md:h-24 rounded-lg md:rounded-xl object-cover flex-shrink-0"
-                  />
-                  {p.qty > 0 && (
-                    <div className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                      {p.qty}
-                    </div>
-                  )}
-                </div>
-                
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 text-base md:text-lg">{p.name}</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 md:gap-2 mt-1">
-                    <p className="text-gray-600 text-sm">
-                      <span className="font-medium">Price per unit:</span>{" "}
-                      <span className="font-semibold text-gray-900">
-                        {p.price.toLocaleString()} Tsh
-                      </span>
-                    </p>
-                    <p className="text-gray-600 text-sm">
-                      <span className="font-medium">Available units:</span>{" "}
-                      <span className={`font-semibold ${p.stock < 10 ? 'text-red-600' : 'text-green-600'}`}>
-                        {p.stock}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quantity Control and Total */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between sm:justify-end gap-4">
-                {/* Quantity Controls */}
-                <div className="flex items-center justify-between sm:justify-start gap-4">
-                  <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-                    <button
-                      onClick={() => updateQty(p.id, "dec")}
-                      disabled={p.qty === 0}
-                      className="px-3 py-2 bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                      <Minus size={16} />
-                    </button>
-                    <span className="px-4 py-2 font-semibold text-gray-800 min-w-[3rem] text-center">
-                      {p.qty}
-                    </span>
-                    <button
-                      onClick={() => updateQty(p.id, "inc")}
-                      disabled={p.qty >= p.stock}
-                      className="px-3 py-2 bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                      <Plus size={16} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Total Price */}
-                <div className="text-right">
-                  <p className="text-xs text-gray-500 mb-1">Total:</p>
-                  <p className="font-bold text-green-600 text-base md:text-lg min-w-[120px]">
-                    {(p.qty * p.price).toLocaleString()} Tsh
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Summary Card */}
-        <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-blue-100 p-4 md:p-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            {/* Order Summary */}
-            <div className="space-y-3 md:space-y-4">
-              <h3 className="text-lg font-semibold text-gray-800">Order Summary</h3>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-blue-50 rounded-lg p-3 md:p-4">
-                  <p className="text-sm text-gray-600">Products</p>
-                  <p className="text-xl font-bold text-blue-700">{totalProducts}</p>
-                </div>
-                
-                <div className="bg-green-50 rounded-lg p-3 md:p-4">
-                  <p className="text-sm text-gray-600">Units</p>
-                  <p className="text-xl font-bold text-green-700">{totalUnits}</p>
-                </div>
-                
-                <div className="bg-purple-50 rounded-lg p-3 md:p-4">
-                  <p className="text-sm text-gray-600">Total Amount</p>
-                  <p className="text-xl font-bold text-purple-700">
-                    {totalPrice.toLocaleString()} Tsh
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button 
-                onClick={handleSaveDraft}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-              >
-                Save as Draft
-              </button>
-              <button 
-                onClick={handleAddOrder}
-                className="px-6 py-3 bg-blue-950 hover:bg-blue-900 text-white rounded-lg font-medium shadow-sm transition-colors"
-              >
-                Add Order
-              </button>
-            </div>
-          </div>
-
-          {/* Additional Info */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <div className="flex flex-col sm:flex-row justify-between gap-4 text-sm text-gray-600">
-              <div>
-                <p className="font-medium mb-1">Order Notes:</p>
-                <p className="text-gray-500">No special instructions</p>
-              </div>
-              <div className="text-right">
-                <p className="font-medium mb-1">Order Status:</p>
-                <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                  Draft
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Bottom Action Bar */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Total</p>
-              <p className="text-lg font-bold text-green-600">
-                {totalPrice.toLocaleString()} Tsh
-              </p>
-            </div>
-            <button 
-              onClick={handleAddOrder}
-              className="px-6 py-3 bg-blue-950 text-white rounded-lg font-medium"
-            >
-              Add Order
+              <FiX size={20} />
             </button>
           </div>
-        </div>
-      </main>
+          
+          <nav className="space-y-2">
+            {menuItems.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => handleNavigation(item.path)}
+                className={`
+                  w-full text-left flex items-center gap-3 p-3 rounded-lg transition-colors duration-200
+                  ${location.pathname === item.path || item.active
+                    ? 'bg-blue-700 text-white font-semibold' 
+                    : 'hover:bg-blue-800 text-blue-100'
+                  }
+                  ${item.isLogout ? 'mt-8 border-t border-blue-700 pt-8' : ''}
+                `}
+              >
+                <span className="text-lg">{item.icon}</span>
+                <span>{item.text}</span>
+                {(location.pathname === item.path || item.active) && (
+                  <div className="ml-auto w-2 h-2 bg-white rounded-full"></div>
+                )}
+              </button>
+            ))}
+          </nav>
 
-      {/* Empty space for mobile bottom bar */}
-      <div className="md:hidden h-20"></div>
+          {/* Sidebar Footer */}
+          <div className="absolute bottom-6 left-6 right-6">
+            <div className="text-center text-blue-200 text-sm">
+              <div className="w-2 h-2 bg-green-400 rounded-full mx-auto mb-2"></div>
+              <p>System Online</p>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <div className="flex-1 min-h-screen overflow-x-hidden">
+          {/* Top Bar */}
+          <header className="bg-white shadow px-4 sm:px-6 py-4 border-b border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-800">Orders</h1>
+                <div className="flex items-center mt-1 text-gray-600 text-sm">
+                  <FiCalendar className="mr-2" />
+                  <span>Total Orders: {ordersData.length}</span>
+                  <span className="mx-2">•</span>
+                  <FiDollarSign className="mr-1" />
+                  <span>Total Sales: {formatCurrency(calculateTotalAllOrders())}</span>
+                </div>
+              </div>
+              
+              <button
+                onClick={handleAddOrder}
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm transition-colors duration-200"
+              >
+                <FiPlus size={20} />
+                <span>Add new order</span>
+              </button>
+            </div>
+          </header>
+
+          {/* Orders Content */}
+          <main className="p-4 sm:p-6">
+            {/* Stats Summary */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+              <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                <p className="text-gray-500 text-sm mb-1">Total Orders</p>
+                <p className="text-2xl font-bold text-gray-800">{ordersData.length}</p>
+              </div>
+              <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                <p className="text-gray-500 text-sm mb-1">Total Products Sold</p>
+                <p className="text-2xl font-bold text-gray-800">
+                  {ordersData.reduce((sum, order) => 
+                    sum + order.products.reduce((pSum, p) => pSum + p.itemsSold, 0), 0
+                  )}
+                </p>
+              </div>
+              <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                <p className="text-gray-500 text-sm mb-1">Total Revenue</p>
+                <p className="text-2xl font-bold text-green-600">{formatCurrency(calculateTotalAllOrders())}</p>
+              </div>
+            </div>
+
+            {/* Orders List */}
+            <div className="space-y-6">
+              {ordersData.map((order, index) => (
+                <div key={index} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                  {/* Order Header */}
+                  <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex items-center">
+                        <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-md font-semibold mr-4">
+                          Sold Products
+                        </div>
+                        <div className="text-gray-700 font-medium">
+                          <FiCalendar className="inline mr-2" />
+                          {order.date}
+                        </div>
+                      </div>
+                      
+                      <div className="bg-green-50 px-4 py-2 rounded-lg">
+                        <div className="text-sm text-gray-600">Total sales:</div>
+                        <div className="text-lg font-bold text-green-600">{formatCurrency(order.totalSales)}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Products List */}
+                  <div className="divide-y divide-gray-100">
+                    {order.products.map((product, pIndex) => (
+                      <div key={pIndex} className="p-6">
+                        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                          {/* Product Info */}
+                          <div className="flex items-start gap-4">
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              className="w-20 h-20 rounded-lg object-cover border border-gray-200 flex-shrink-0"
+                            />
+                            
+                            <div>
+                              <h3 className="font-semibold text-gray-900 text-lg mb-2">{product.name}</h3>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                                <div className="text-gray-600">
+                                  <span className="font-medium">Price per unit:</span> {formatCurrency(product.pricePerUnit)}
+                                </div>
+                                <div className="text-gray-600">
+                                  <span className="font-medium">Items sold:</span> {product.itemsSold}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Total Price */}
+                          <div className="lg:text-right">
+                            <div className="text-sm text-gray-500 mb-1">Total</div>
+                            <div className="text-2xl font-bold text-green-600">
+                              {formatCurrency(product.total)}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Recent Activity - Mobile */}
+            <div className="lg:hidden mt-6">
+              <div className="bg-white rounded-xl border border-gray-200 p-4">
+                <h3 className="font-semibold text-gray-800 mb-3">Recent Activity</h3>
+                <div className="space-y-3">
+                  {[
+                    { text: 'New order completed', time: 'Just now' },
+                    { text: 'Payment received', time: '10 min ago' },
+                    { text: 'Order shipped', time: '1 hour ago' },
+                  ].map((activity, index) => (
+                    <div key={index} className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                        <span className="text-sm text-gray-700">{activity.text}</span>
+                      </div>
+                      <span className="text-xs text-gray-500">{activity.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </main>
+
+          {/* Footer */}
+          <footer className="bg-white border-t border-gray-200 px-4 sm:px-6 py-4 mt-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-center sm:text-left">
+              <div className="text-gray-600 text-sm mb-2 sm:mb-0">
+                © 2024 Inventory Management System. All rights reserved.
+              </div>
+              <div className="text-xs text-gray-500">
+                <span>Version 2.0.1</span>
+                <span className="mx-2">•</span>
+                <span>Last updated: Today</span>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Orders;
